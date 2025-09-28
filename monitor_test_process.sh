@@ -17,7 +17,7 @@ log_message() {
 
 # --- Логика ---
 
-# Ищем PID. `|| true` нужен, чтобы скрипт не падал с ошибкой (из-за set -e), если процесс не найден.
+# Ищем PID
 current_pid=$(pidof -s "$PROCESS_NAME" || true)
 
 if [[ -z "$current_pid" ]]; then
@@ -40,7 +40,6 @@ if [[ "$current_pid" != "$last_pid" ]]; then
 fi
 
 # Heartbeat-запрос к API.
-# -s: silent, -f: fail on server error, --max-time: timeout
 if ! curl -sf --max-time 10 "$API_URL" > /dev/null; then
     log_message "ERROR: API endpoint '$API_URL' unreachable."
 fi
